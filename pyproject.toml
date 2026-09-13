@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "drama-nemo-ass"
+version = "0.1.0"
+description = "Japanese audio drama ASR, diarization, speaker relabeling, and ASS rendering pipeline."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "drama-nemo-ass contributors" }]
+dependencies = []
+
+[project.optional-dependencies]
+ass = ["pysubs2>=1.7.0"]
+ja = ["sudachipy>=0.6.8", "sudachidict_core>=20240716"]
+ml = [
+  "faster-whisper>=1.0.0",
+  "nemo_toolkit[asr]>=2.0.0",
+  "numpy>=1.24",
+  "soundfile>=0.12",
+  "scikit-learn>=1.3",
+]
+test = ["pytest>=8.0"]
+speaker = ["speechbrain>=1.0,<2"]
+
+[project.scripts]
+drama-nemo-ass = "drama_nemo_ass.cli:main"
+drama-speaker-ass = "drama_speaker_ass.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["drama_nemo_ass*", "drama_speaker_ass*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "tests_v2"]
+pythonpath = ["."]

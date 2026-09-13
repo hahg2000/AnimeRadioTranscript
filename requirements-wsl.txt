@@ -1,0 +1,26 @@
+# Install PyTorch separately before this file. Keep torch/torchvision/torchaudio
+# pinned as a matching set; mixed CPU/CUDA or mismatched versions can raise
+# RuntimeError: operator torchvision::nms does not exist.
+# The existing machine runs NeMo 2.7.3 on torch 2.5.1 successfully, but pip
+# reports a metadata mismatch. Treat this as install inputs rather than a lock;
+# rebuild and smoke-test a new venv before upgrading core ML packages.
+#
+# CUDA 12.1 wheels:
+# pip install --no-cache-dir torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+nemo_toolkit[asr]
+faster-whisper
+huggingface-hub>=0.34.0,<1.0
+pysubs2
+soundfile
+librosa
+scikit-learn
+pydantic
+sudachipy
+sudachidict_core
+pytest
+
+# Qwen3-ASR (--engine qwen) runs in a separate venv ~/.venvs/drama-qwen because
+# transformers>=5.13.0 requires huggingface-hub>=1.5, which conflicts with
+# NeMo's huggingface-hub<1.0 constraint in this venv. That venv uses:
+#   transformers>=5.13.0, huggingface-hub>=1.5, accelerate, librosa, soundfile,
+#   sudachipy, sudachidict_core (torch 2.5.1 cu121 copied from this venv).
